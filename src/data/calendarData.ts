@@ -9,6 +9,12 @@ const createDate = (days: number = 0, hours: number = 0, minutes: number = 0): s
   return date.toISOString();
 };
 
+// Define the three time slots for each day (morning, afternoon, evening)
+const createMorningSlot = (days: number): string => createDate(days, 8, 0);
+const createAfternoonSlot = (days: number): string => createDate(days, 12, 0);
+const createEveningSlot = (days: number): string => createDate(days, 16, 0);
+const createEndOfDay = (days: number): string => createDate(days, 20, 0);
+
 // Sample resources
 export const sampleResources: Resource[] = [
   { id: 'resource-1', title: 'Resource A' },
@@ -18,14 +24,14 @@ export const sampleResources: Resource[] = [
   { id: 'resource-5', title: 'Resource E' },
 ];
 
-// Sample events spanning this week
+// Sample events for the three time slots across 5 days
 export const sampleEvents: CalendarEvent[] = [
   {
     id: 'event-1',
     resourceId: 'resource-1',
-    title: 'Project Meeting',
-    start: createDate(0, 10, 0),
-    end: createDate(0, 12, 0),
+    title: 'Morning Meeting',
+    start: createMorningSlot(0),
+    end: createAfternoonSlot(0),
     backgroundColor: '#4285F4',
     borderColor: '#4285F4',
     textColor: '#ffffff'
@@ -33,9 +39,9 @@ export const sampleEvents: CalendarEvent[] = [
   {
     id: 'event-2',
     resourceId: 'resource-2',
-    title: 'Design Review',
-    start: createDate(1, 14, 0),
-    end: createDate(1, 16, 0),
+    title: 'Afternoon Session',
+    start: createAfternoonSlot(1),
+    end: createEveningSlot(1),
     backgroundColor: '#34A853',
     borderColor: '#34A853',
     textColor: '#ffffff'
@@ -43,9 +49,9 @@ export const sampleEvents: CalendarEvent[] = [
   {
     id: 'event-3',
     resourceId: 'resource-3',
-    title: 'Development Sprint',
-    start: createDate(2, 9, 0),
-    end: createDate(2, 17, 0),
+    title: 'Evening Review',
+    start: createEveningSlot(2),
+    end: createEndOfDay(2),
     backgroundColor: '#FBBC05',
     borderColor: '#FBBC05',
     textColor: '#333333'
@@ -53,9 +59,9 @@ export const sampleEvents: CalendarEvent[] = [
   {
     id: 'event-4',
     resourceId: 'resource-4',
-    title: 'Client Presentation',
-    start: createDate(3, 11, 0),
-    end: createDate(3, 13, 0),
+    title: 'Morning Workshop',
+    start: createMorningSlot(3),
+    end: createAfternoonSlot(3),
     backgroundColor: '#EA4335',
     borderColor: '#EA4335',
     textColor: '#ffffff'
@@ -63,9 +69,9 @@ export const sampleEvents: CalendarEvent[] = [
   {
     id: 'event-5',
     resourceId: 'resource-5',
-    title: 'Team Building',
-    start: createDate(4, 15, 0),
-    end: createDate(4, 18, 0),
+    title: 'Afternoon Training',
+    start: createAfternoonSlot(4),
+    end: createEveningSlot(4),
     backgroundColor: '#8E44AD',
     borderColor: '#8E44AD',
     textColor: '#ffffff'

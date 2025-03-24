@@ -224,9 +224,10 @@ const ResourceTimelineCalendar: React.FC<ResourceTimelineCalendarProps> = ({
           dayMaxEvents={true}
           resourceAreaWidth="15%"
           height="auto"
-          slotDuration="01:00:00"
-          slotLabelInterval="01:00:00"
-          slotMinWidth={70}
+          duration={{ days: 5 }}
+          slotDuration="08:00:00"
+          slotLabelInterval="08:00:00"
+          slotMinWidth={150}
           resources={resources}
           events={events}
           dateClick={handleDateClick}
@@ -234,18 +235,22 @@ const ResourceTimelineCalendar: React.FC<ResourceTimelineCalendarProps> = ({
           eventDrop={handleEventDrop}
           eventResize={handleEventResize}
           resourceAreaHeaderContent="Resources"
-          allDaySlot={false}
-          eventTimeFormat={{
-            hour: '2-digit',
-            minute: '2-digit',
-            meridiem: false,
-            hour12: false
-          }}
           slotLabelFormat={{
             hour: '2-digit',
             minute: '2-digit',
             meridiem: false,
             hour12: false
+          }}
+          views={{
+            resourceTimelineWeek: {
+              type: 'resourceTimeline',
+              duration: { days: 5 },
+              slotDuration: '08:00:00',
+              slotLabelFormat: [
+                { weekday: 'short', day: 'numeric' },
+                { hour: '2-digit', minute: '2-digit' }
+              ]
+            }
           }}
         />
       </div>
