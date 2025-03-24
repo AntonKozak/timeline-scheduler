@@ -1,5 +1,5 @@
 
-import { Resource, CalendarEvent } from '@/components/ResourceTimelineCalendar';
+import { Resource, CalendarEvent } from '@/components/calendar/types';
 
 // Helper to create ISO strings for dates
 const createDate = (days: number = 0, hours: number = 0, minutes: number = 0): string => {
