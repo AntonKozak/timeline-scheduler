@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ResourceTimelineCalendar, { Resource, CalendarEvent } from '@/components/ResourceTimelineCalendar';
 import { sampleResources, sampleEvents } from '@/data/calendarData';
 import { toast } from 'sonner';
@@ -8,18 +8,24 @@ const Index = () => {
   const [resources] = useState<Resource[]>(sampleResources);
   const [events, setEvents] = useState<CalendarEvent[]>(sampleEvents);
 
+  useEffect(() => {
+    console.log('Index component mounted');
+    console.log('Initial resources:', sampleResources);
+    console.log('Initial events:', sampleEvents);
+  }, []);
+
   const handleEventChange = (updatedEvent: CalendarEvent) => {
-    console.log('Event changed:', updatedEvent);
+    console.log('Parent: Event changed:', updatedEvent);
     setEvents(prev => prev.map(event => event.id === updatedEvent.id ? updatedEvent : event));
   };
 
   const handleEventAdd = (newEvent: CalendarEvent) => {
-    console.log('Event added:', newEvent);
+    console.log('Parent: Event added:', newEvent);
     setEvents(prev => [...prev, newEvent]);
   };
 
   const handleEventDelete = (eventId: string) => {
-    console.log('Event deleted:', eventId);
+    console.log('Parent: Event deleted:', eventId);
     setEvents(prev => prev.filter(event => event.id !== eventId));
   };
 

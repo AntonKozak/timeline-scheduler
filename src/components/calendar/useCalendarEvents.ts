@@ -18,14 +18,17 @@ export const useCalendarEvents = (
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
+    console.log('Resources updated:', initialResources);
     setResources(initialResources);
   }, [initialResources]);
 
   useEffect(() => {
+    console.log('Events updated:', initialEvents);
     setEvents(initialEvents);
   }, [initialEvents]);
 
   const handleDateClick = (arg: any) => {
+    console.log('Date clicked:', arg);
     const resourceId = arg.resource ? arg.resource.id : '';
     setCurrentEvent({
       start: arg.dateStr,
@@ -39,6 +42,7 @@ export const useCalendarEvents = (
   };
 
   const handleEventClick = (arg: any) => {
+    console.log('Event clicked:', arg.event);
     setCurrentEvent({
       id: arg.event.id,
       title: arg.event.title,
@@ -52,6 +56,10 @@ export const useCalendarEvents = (
   };
 
   const handleEventDrop = (arg: any) => {
+    console.log('Event dropped:', arg.event);
+    console.log('Old start:', arg.oldEvent.startStr, 'New start:', arg.event.startStr);
+    console.log('Old resource:', arg.oldEvent.getResources()[0]?.id, 'New resource:', arg.event.getResources()[0]?.id);
+    
     const resource = arg.event.getResources()[0];
     const updatedEvent = {
       id: arg.event.id,
@@ -74,6 +82,9 @@ export const useCalendarEvents = (
   };
 
   const handleEventResize = (arg: any) => {
+    console.log('Event resized:', arg.event);
+    console.log('Old end:', arg.oldEvent.endStr, 'New end:', arg.event.endStr);
+    
     const resource = arg.event.getResources()[0];
     const updatedEvent = {
       id: arg.event.id,
@@ -96,6 +107,8 @@ export const useCalendarEvents = (
   };
 
   const handleSaveEvent = () => {
+    console.log('Saving event:', currentEvent);
+    
     if (!currentEvent || !currentEvent.title || !currentEvent.resourceId) {
       toast.error('Please fill in all required fields');
       return;
@@ -113,12 +126,14 @@ export const useCalendarEvents = (
     };
 
     if (isEditing) {
+      console.log('Updating existing event:', newEvent);
       setEvents((prev) => prev.map(event => event.id === newEvent.id ? newEvent : event));
       if (onEventChange) {
         onEventChange(newEvent);
       }
       toast.success('Event updated successfully');
     } else {
+      console.log('Adding new event:', newEvent);
       setEvents((prev) => [...prev, newEvent]);
       if (onEventAdd) {
         onEventAdd(newEvent);
@@ -131,6 +146,8 @@ export const useCalendarEvents = (
   };
 
   const confirmDeleteEvent = () => {
+    console.log('Deleting event with ID:', currentEvent?.id);
+    
     if (currentEvent && currentEvent.id) {
       setEvents((prev) => prev.filter(event => event.id !== currentEvent.id));
       
@@ -147,6 +164,9 @@ export const useCalendarEvents = (
   };
 
   const handleAddEventClick = () => {
+    console.log('Add event button clicked');
+    console.log('Available resources:', resources);
+    
     setCurrentEvent({
       start: new Date().toISOString(),
       end: new Date(new Date().getTime() + 3600000).toISOString(),

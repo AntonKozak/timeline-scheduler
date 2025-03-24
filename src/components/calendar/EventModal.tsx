@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -29,6 +29,14 @@ const EventModal: React.FC<EventModalProps> = ({
   onSave,
   onDelete
 }) => {
+  useEffect(() => {
+    if (isOpen) {
+      console.log('Event modal opened with data:', currentEvent);
+      console.log('Editing mode:', isEditing ? 'Edit existing' : 'Create new');
+      console.log('Available resources for selection:', resources);
+    }
+  }, [isOpen, currentEvent, isEditing, resources]);
+
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px] animate-slide-in">
@@ -50,7 +58,10 @@ const EventModal: React.FC<EventModalProps> = ({
               placeholder="Event title"
               className="col-span-3"
               value={currentEvent?.title || ''}
-              onChange={(e) => setCurrentEvent({ ...currentEvent!, title: e.target.value })}
+              onChange={(e) => {
+                console.log('Title changed:', e.target.value);
+                setCurrentEvent({ ...currentEvent!, title: e.target.value });
+              }}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -59,7 +70,10 @@ const EventModal: React.FC<EventModalProps> = ({
             </Label>
             <Select 
               value={currentEvent?.resourceId} 
-              onValueChange={(value) => setCurrentEvent({ ...currentEvent!, resourceId: value })}
+              onValueChange={(value) => {
+                console.log('Resource selected:', value);
+                setCurrentEvent({ ...currentEvent!, resourceId: value });
+              }}
             >
               <SelectTrigger className="col-span-3">
                 <SelectValue placeholder="Select a resource" />
@@ -82,10 +96,13 @@ const EventModal: React.FC<EventModalProps> = ({
               type="datetime-local"
               className="col-span-3"
               value={currentEvent?.start ? new Date(currentEvent.start).toISOString().slice(0, 16) : ''}
-              onChange={(e) => setCurrentEvent({ 
-                ...currentEvent!, 
-                start: new Date(e.target.value).toISOString() 
-              })}
+              onChange={(e) => {
+                console.log('Start time changed:', e.target.value);
+                setCurrentEvent({ 
+                  ...currentEvent!, 
+                  start: new Date(e.target.value).toISOString() 
+                });
+              }}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -97,10 +114,13 @@ const EventModal: React.FC<EventModalProps> = ({
               type="datetime-local"
               className="col-span-3"
               value={currentEvent?.end ? new Date(currentEvent.end).toISOString().slice(0, 16) : ''}
-              onChange={(e) => setCurrentEvent({ 
-                ...currentEvent!, 
-                end: new Date(e.target.value).toISOString() 
-              })}
+              onChange={(e) => {
+                console.log('End time changed:', e.target.value);
+                setCurrentEvent({ 
+                  ...currentEvent!, 
+                  end: new Date(e.target.value).toISOString() 
+                });
+              }}
             />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -112,11 +132,14 @@ const EventModal: React.FC<EventModalProps> = ({
               type="color"
               className="col-span-3 h-10"
               value={currentEvent?.backgroundColor || '#3788d8'}
-              onChange={(e) => setCurrentEvent({ 
-                ...currentEvent!, 
-                backgroundColor: e.target.value,
-                borderColor: e.target.value
-              })}
+              onChange={(e) => {
+                console.log('Color changed:', e.target.value);
+                setCurrentEvent({ 
+                  ...currentEvent!, 
+                  backgroundColor: e.target.value,
+                  borderColor: e.target.value
+                });
+              }}
             />
           </div>
         </div>
@@ -124,7 +147,10 @@ const EventModal: React.FC<EventModalProps> = ({
           {isEditing && (
             <Button 
               variant="destructive" 
-              onClick={onDelete}
+              onClick={() => {
+                console.log('Delete button clicked for event:', currentEvent?.id);
+                onDelete();
+              }}
               className="flex items-center gap-1"
             >
               <X size={16} />
@@ -134,7 +160,10 @@ const EventModal: React.FC<EventModalProps> = ({
           <div className="flex gap-2">
             <Button 
               variant="outline" 
-              onClick={() => onOpenChange(false)}
+              onClick={() => {
+                console.log('Cancel button clicked, closing modal');
+                onOpenChange(false);
+              }}
               className="flex items-center gap-1"
             >
               <X size={16} />
@@ -142,7 +171,10 @@ const EventModal: React.FC<EventModalProps> = ({
             </Button>
             <Button 
               type="submit" 
-              onClick={onSave}
+              onClick={() => {
+                console.log('Save/Update button clicked with data:', currentEvent);
+                onSave();
+              }}
               className="flex items-center gap-1 bg-primary hover:bg-primary/90"
             >
               <Calendar size={16} />

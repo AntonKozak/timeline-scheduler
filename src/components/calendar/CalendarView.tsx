@@ -1,5 +1,5 @@
 
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import interactionPlugin from '@fullcalendar/interaction';
@@ -23,6 +23,11 @@ const CalendarView: React.FC<CalendarViewProps> = ({
   onEventResize
 }) => {
   const calendarRef = useRef<FullCalendar | null>(null);
+
+  useEffect(() => {
+    console.log('Calendar rendered with resources:', resources);
+    console.log('Calendar rendered with events:', events);
+  }, [resources, events]);
 
   return (
     <div className="calendar-container overflow-hidden rounded-xl border animate-fade-in">
@@ -68,6 +73,13 @@ const CalendarView: React.FC<CalendarViewProps> = ({
               { hour: '2-digit', minute: '2-digit' }
             ]
           }
+        }}
+        datesSet={(dateInfo) => {
+          console.log('Calendar date range changed:', {
+            start: dateInfo.start,
+            end: dateInfo.end,
+            view: dateInfo.view.type
+          });
         }}
       />
     </div>
