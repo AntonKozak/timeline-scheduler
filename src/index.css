@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -13,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 222.2 47.4% 11.2%;
+    --primary: 210 100% 50%;
     --primary-foreground: 210 40% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -35,20 +36,19 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --calendar-header: 210 30% 98%;
+    --calendar-header-text: 222.2 84% 4.9%;
+    --calendar-cell: 0 0% 100%;
+    --calendar-event: 210 100% 50%;
+    --calendar-event-text: 0 0% 100%;
   }
 
   .dark {
@@ -61,7 +61,7 @@
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
 
-    --primary: 210 40% 98%;
+    --primary: 210 100% 50%;
     --primary-foreground: 222.2 47.4% 11.2%;
 
     --secondary: 217.2 32.6% 17.5%;
@@ -79,6 +79,7 @@
     --border: 217.2 32.6% 17.5%;
     --input: 217.2 32.6% 17.5%;
     --ring: 212.7 26.8% 83.9%;
+    
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;
@@ -87,6 +88,12 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
+
+    --calendar-header: 222.2 84% 4.9%;
+    --calendar-header-text: 210 40% 98%;
+    --calendar-cell: 222.2 84% 4.9%;
+    --calendar-event: 210 100% 50%;
+    --calendar-event-text: 210 40% 98%;
   }
 }
 
@@ -97,5 +104,63 @@
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Calendar Custom Styles */
+@layer components {
+  .fc {
+    @apply font-sans text-sm;
+  }
+
+  .fc .fc-toolbar {
+    @apply flex flex-wrap justify-between items-center px-4 py-3 mb-4 rounded-lg bg-calendar-header text-calendar-headerText;
+  }
+
+  .fc .fc-toolbar-title {
+    @apply text-xl font-medium;
+  }
+
+  .fc .fc-button {
+    @apply bg-transparent border border-gray-200 text-calendar-headerText rounded-md px-3 py-1.5 shadow-sm transition-all duration-200 hover:bg-white/10;
+  }
+
+  .fc .fc-button-primary:not(:disabled).fc-button-active, 
+  .fc .fc-button-primary:not(:disabled):active {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  .fc .fc-resource-timeline-divider {
+    @apply w-0.5 !important;
+  }
+
+  .fc .fc-datagrid-cell-cushion {
+    @apply px-4 py-2 font-medium;
+  }
+
+  .fc .fc-resource-timeline-header, 
+  .fc .fc-scrollgrid-sync-inner {
+    @apply bg-calendar-header text-calendar-headerText;
+  }
+
+  .fc .fc-timeline-slot, 
+  .fc .fc-resource-timeline-header {
+    @apply border border-gray-100;
+  }
+
+  .fc .fc-timeline-event {
+    @apply bg-calendar-event text-calendar-eventText rounded-md border-none shadow-sm transition-all duration-200 animate-scale-in;
+  }
+
+  .fc .fc-timeline-event:hover {
+    @apply shadow-md transform scale-[1.01];
+  }
+
+  .fc .fc-event-title {
+    @apply p-1 font-medium;
+  }
+
+  .fc-theme-standard .fc-scrollgrid {
+    @apply border-gray-200 rounded-md overflow-hidden shadow-sm;
   }
 }
